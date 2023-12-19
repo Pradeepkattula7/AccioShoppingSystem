@@ -38,7 +38,7 @@ public class Users {
     @OneToOne
     Cart cart;
 
-    @OneToMany(mappedBy = "users")
+    @OneToMany
     List<Orders> ordersList;
 
     boolean isAdminApproved;

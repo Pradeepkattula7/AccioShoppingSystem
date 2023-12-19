@@ -27,7 +27,7 @@ public class Orders {
 
     int totalOrderPrice;
 
-    @OneToMany(mappedBy = "orders")
+    @OneToMany
     List<Product> productList;
 
     boolean isDelivered;

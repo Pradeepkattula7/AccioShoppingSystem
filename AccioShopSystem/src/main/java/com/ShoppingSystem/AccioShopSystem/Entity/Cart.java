@@ -20,14 +20,12 @@ public class Cart {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int cartId;
 
-    @OneToOne
+    @OneToOne(mappedBy="cart")
     Users users;
-
 
     int totalPrice;
 
     int totalItems;
-
 
     @OneToMany
     List<Product> productList;

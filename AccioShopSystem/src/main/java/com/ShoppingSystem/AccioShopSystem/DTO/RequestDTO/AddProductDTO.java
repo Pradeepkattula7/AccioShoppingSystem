@@ -1,7 +1,5 @@
-package com.ShoppingSystem.AccioShopSystem.Entity;
+package com.ShoppingSystem.AccioShopSystem.DTO.RequestDTO;
 
-
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,12 +9,9 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-@Entity
-public class Product {
+public class AddProductDTO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    int productId;
+    String userName;
 
     String productName;
 
@@ -28,9 +23,4 @@ public class Product {
 
     int price;
 
-    @ManyToOne
-    Cart cart1;
-
-    @ManyToOne
-    Orders orders;
 }

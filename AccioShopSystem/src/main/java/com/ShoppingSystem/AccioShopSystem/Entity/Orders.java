@@ -12,7 +12,7 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-public class Order {
+public class Orders {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,10 +25,9 @@ public class Order {
 
     Date deleiveryDate;
 
+    int totalOrderPrice;
 
-    int totalPrice;
-
-    @OneToMany
+    @OneToMany(mappedBy = "orders")
     List<Product> productList;
 
     boolean isDelivered;

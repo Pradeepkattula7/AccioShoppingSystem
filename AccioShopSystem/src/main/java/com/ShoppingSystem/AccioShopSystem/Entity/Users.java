@@ -35,7 +35,11 @@ public class Users {
     @Column(length = 10,unique = true)
     Long phoneNumber;
 
+    @OneToOne
+    Cart cart;
 
-    @OneToMany
-    List<Order> orderList;
+    @OneToMany(mappedBy = "users")
+    List<Orders> ordersList;
+
+    boolean isAdminApproved;
 }

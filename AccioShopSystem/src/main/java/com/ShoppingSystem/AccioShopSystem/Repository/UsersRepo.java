@@ -29,4 +29,14 @@ public interface UsersRepo extends JpaRepository<Users,Integer> {
 
     @Query(value = "select role from  users where user_id=:userId",nativeQuery = true)
     public String userRole(int userId);
+
+
+    @Transactional
+    @Modifying
+    @Query(value = "insert into users_orders_list(users_user_id,orders_list_order_id) values(:userId,:orderId)",nativeQuery = true)
+    public void insert(int userId,int orderId);
+
+
+    @Query(value = "select orders_list_order_id from users_orders_list where users_user_id=:userId",nativeQuery = true)
+    public List<Object []> userOrders(int userId);
 }

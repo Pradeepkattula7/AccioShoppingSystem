@@ -5,7 +5,9 @@ import com.ShoppingSystem.AccioShopSystem.DTO.RequestDTO.LoginRequestDTO;
 import com.ShoppingSystem.AccioShopSystem.DTO.RequestDTO.AddUsersDTO;
 import com.ShoppingSystem.AccioShopSystem.DTO.ResponseDTO.LoginResponseDTO;
 import com.ShoppingSystem.AccioShopSystem.DTO.ResponseDTO.ShowCartDTO;
+import com.ShoppingSystem.AccioShopSystem.DTO.ResponseDTO.UserOrdersResponseDTO;
 import com.ShoppingSystem.AccioShopSystem.Entity.Cart;
+import com.ShoppingSystem.AccioShopSystem.Entity.Orders;
 import com.ShoppingSystem.AccioShopSystem.Entity.Product;
 import com.ShoppingSystem.AccioShopSystem.Entity.Users;
 import com.ShoppingSystem.AccioShopSystem.Exception.AdminNotFoundException;
@@ -13,10 +15,12 @@ import com.ShoppingSystem.AccioShopSystem.Exception.UserNotFoundException;
 import com.ShoppingSystem.AccioShopSystem.Exception.WrongAccess;
 import com.ShoppingSystem.AccioShopSystem.Exception.WrongCredentialsException;
 import com.ShoppingSystem.AccioShopSystem.Repository.CartRepo;
+import com.ShoppingSystem.AccioShopSystem.Repository.OrdersRepo;
 import com.ShoppingSystem.AccioShopSystem.Repository.UsersRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -31,6 +35,12 @@ public class UsersService {
 
     @Autowired
     CartRepo cartRepo;
+
+    @Autowired
+    OrdersService ordersService;
+
+    @Autowired
+    OrdersRepo ordersRepo;
 
     public  Users signUp(AddUsersDTO addUsersDTO){
 
@@ -124,5 +134,65 @@ public class UsersService {
     public Users getUserById(int userId){
 
         return usersRepo.findByUserId(userId);
+    }
+
+//    public UserOrdersResponseDTO userOrders(int userId){
+//
+//        if(usersRepo.findByUserId(userId)==null){
+//            throw new UserNotFoundException("user not found");
+//        }
+//
+//        List<Object []> list=usersRepo.userOrders(userId);
+//
+//        if(list.size()==0){
+//            throw new WrongAccess("user not placed any orders");
+//        }
+//
+//        UserOrdersResponseDTO userOrdersResponseDTO =new UserOrdersResponseDTO();
+//
+//        List<Orders> list1=new ArrayList<>();
+//
+//
+//            for(Object [] obj:list){
+//
+//                Orders p=ordersService.getOrder(Integer.parseInt(obj[0].toString()));
+//
+//                list1.add(p);
+//            }
+//
+//        userOrdersResponseDTO.setList(list1);
+//
+//        return userOrdersResponseDTO;
+//
+//    }
+
+    public UserOrdersResponseDTO userOrders(int userId){
+
+        if(usersRepo.findByUserId(userId)==null){
+            throw new UserNotFoundException("user not found");
+        }
+
+        List<Object []> list=usersRepo.userOrders(userId);
+
+        if(list.size()==0){
+            throw new WrongAccess("user not placed any orders");
+        }
+
+        UserOrdersResponseDTO userOrdersResponseDTO =new UserOrdersResponseDTO();
+
+        List<Orders> list1=new ArrayList<>();
+
+
+        for(Object [] obj:list){
+
+            Orders p=ordersService.getOrder(Integer.parseInt(obj[0].toString()));
+
+            list1.add(p);
+        }
+
+        userOrdersResponseDTO.setList(list1);
+
+        return userOrdersResponseDTO;
+
     }
 }

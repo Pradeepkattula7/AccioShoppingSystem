@@ -2,12 +2,17 @@ package com.ShoppingSystem.AccioShopSystem.Controller;
 
 import com.ShoppingSystem.AccioShopSystem.DTO.RequestDTO.AddUsersDTO;
 import com.ShoppingSystem.AccioShopSystem.DTO.RequestDTO.LoginRequestDTO;
+import com.ShoppingSystem.AccioShopSystem.DTO.RequestDTO.PlaceOrderDTO;
 import com.ShoppingSystem.AccioShopSystem.DTO.ResponseDTO.LoginResponseDTO;
+import com.ShoppingSystem.AccioShopSystem.DTO.ResponseDTO.PlaceOrderResponseDTO;
 import com.ShoppingSystem.AccioShopSystem.DTO.ResponseDTO.ShowCartDTO;
+import com.ShoppingSystem.AccioShopSystem.DTO.ResponseDTO.UserOrdersResponseDTO;
 import com.ShoppingSystem.AccioShopSystem.Entity.Cart;
+import com.ShoppingSystem.AccioShopSystem.Entity.Orders;
 import com.ShoppingSystem.AccioShopSystem.Entity.Users;
 import com.ShoppingSystem.AccioShopSystem.Exception.*;
 import com.ShoppingSystem.AccioShopSystem.Service.CartService;
+import com.ShoppingSystem.AccioShopSystem.Service.OrdersService;
 import com.ShoppingSystem.AccioShopSystem.Service.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,6 +20,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.lang.management.LockInfo;
+import java.util.List;
 
 @RestController
 public class UsersController {
@@ -24,6 +30,9 @@ public class UsersController {
 
     @Autowired
     CartService cartService;
+
+    @Autowired
+    OrdersService ordersService;
 
 
     @PostMapping("/shop/signup")
@@ -92,6 +101,33 @@ public class UsersController {
         try{
             cartService.removeItems(userId,productId);
             return new ResponseEntity("removed succesfully",HttpStatus.OK);
+        }
+        catch (UserNotFoundException e){
+            return new ResponseEntity(e.getMessage(),HttpStatus.NOT_FOUND);
+        }
+        catch (WrongAccess e){
+            return new ResponseEntity(e.getMessage(),HttpStatus.UNAUTHORIZED);
+        }
+    }
+
+
+    @PostMapping("/shop/user/placeOrder")
+    public ResponseEntity placeOrder(@RequestBody PlaceOrderDTO placeOrderDTO){
+
+        try{
+            PlaceOrderResponseDTO placeOrderResponseDTO=ordersService.placeOrder(placeOrderDTO);
+            return new ResponseEntity(placeOrderResponseDTO,HttpStatus.OK);
+        }
+        catch (UserNotFoundException e){
+            return new ResponseEntity(e.getMessage(),HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/shop/userOrders/{userId}")
+    public  ResponseEntity userOrder( @PathVariable int userId){
+        try{
+            UserOrdersResponseDTO userOrdersResponseDTO =usersService.userOrders(userId);
+            return new ResponseEntity(userOrdersResponseDTO,HttpStatus.OK);
         }
         catch (UserNotFoundException e){
             return new ResponseEntity(e.getMessage(),HttpStatus.NOT_FOUND);

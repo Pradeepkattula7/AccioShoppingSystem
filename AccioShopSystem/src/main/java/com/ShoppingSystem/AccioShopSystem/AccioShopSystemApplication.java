@@ -9,6 +9,7 @@ public class AccioShopSystemApplication {
 	public static void main(String[] args) {
 
 		SpringApplication.run(AccioShopSystemApplication.class, args);
+
 	}
 
 }

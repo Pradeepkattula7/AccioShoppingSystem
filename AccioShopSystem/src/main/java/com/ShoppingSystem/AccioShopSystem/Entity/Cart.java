@@ -27,6 +27,6 @@ public class Cart {
 
     int totalItems;
 
-    @OneToMany
+    @ManyToMany
     List<Product> productList;
 }

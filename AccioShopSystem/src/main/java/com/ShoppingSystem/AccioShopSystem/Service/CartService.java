@@ -59,7 +59,9 @@ public class CartService {
     }
 
     public  void createCart(Cart c){
+
         cartRepo.save(c);
+
     }
 
     public ShowCartDTO showUserCart(int userId){

@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -28,9 +30,9 @@ public class Product {
 
     int price;
 
-    @ManyToOne
-    Cart cart1;
+    @ManyToMany
+    List<Cart> carts;
 
-    @ManyToOne
-    Orders orders;
+    @ManyToMany
+    List<Orders> ordersList;
 }

@@ -18,8 +18,6 @@ public class Orders {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int orderId;
 
-    String orderName;
-
     @ManyToOne
     Users users;
 
@@ -27,7 +25,7 @@ public class Orders {
 
     int totalOrderPrice;
 
-    @OneToMany
+    @ManyToMany
     List<Product> productList;
 
     boolean isDelivered;
